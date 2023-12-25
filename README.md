@@ -60,7 +60,9 @@ https://github.com/cosmtrek/air
 ## How To Run
 
 > go get
+
 > go run cmd/migrate.go
+
 > air
 
 ## TUTORIAL GO

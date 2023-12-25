@@ -1,4 +1,4 @@
-## FROM TUTORIAL
+## SOURCE TUTORIAL
 
 Golang GORM RESTful API with Gin Gonic and PostgreSQL
 https://codevoweb.com/setup-golang-gorm-restful-api-project-with-postgres/
@@ -13,24 +13,26 @@ To install the plugin, we need to run the CREATE EXTENSION command in the Postgr
 
 Now access the bash shell of the running Postgres container with this command
 
-- docker exec -it postgres bash
+> docker exec -it postgres bash
 
-- psql -U postges golang-gorm
+> psql -U postges golang-gorm
 
-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+> CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 ## Migrating
 
-- go run cmd/migrate.go
+> go run cmd/migrate.go
 
 ## TUTORIAL GO
 
-How to Install: https://go.dev/doc/install
+### How to Install: https://go.dev/doc/install
 
-PATH ON .profile or .zshrc
+### PATH ON .profile or .zshrc
 
+```
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH
 export PATH=$PATH:$GOROOT/bin
+```

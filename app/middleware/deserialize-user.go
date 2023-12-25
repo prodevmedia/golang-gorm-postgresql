@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/supardi98/golang-gorm-postgres/app/controllers"
 	"github.com/supardi98/golang-gorm-postgres/app/models"
 	"github.com/supardi98/golang-gorm-postgres/app/utils"
 	"github.com/supardi98/golang-gorm-postgres/config"
@@ -27,21 +28,21 @@ func DeserializeUser() gin.HandlerFunc {
 		}
 
 		if token == "" {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": "You are not logged in"})
+			controllers.ResponseWithError(ctx, http.StatusUnauthorized, "You are not logged in")
 			return
 		}
 
 		config, _ := config.LoadConfig(".")
 		sub, err := utils.ValidateToken(token, config.TokenSecret)
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": err.Error()})
+			controllers.ResponseWithError(ctx, http.StatusUnauthorized, err.Error())
 			return
 		}
 
 		var user models.User
 		result := database.DB.First(&user, "id = ?", fmt.Sprint(sub))
 		if result.Error != nil {
-			ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{"status": "fail", "message": "the user belonging to this token no logger exists"})
+			controllers.ResponseWithError(ctx, http.StatusUnauthorized, "You are not logged in")
 			return
 		}
 

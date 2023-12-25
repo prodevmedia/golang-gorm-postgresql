@@ -24,7 +24,7 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 	var payload *models.CreatePostRequest
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, err.Error())
+		ResponseWithError(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -41,14 +41,14 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 	result := pc.DB.Create(&newPost)
 	if result.Error != nil {
 		if strings.Contains(result.Error.Error(), "duplicate key") {
-			ctx.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "Post with that title already exists"})
+			ResponseWithError(ctx, http.StatusConflict, "Post with that title already exists")
 			return
 		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": result.Error.Error()})
+		ResponseWithError(ctx, http.StatusBadGateway, result.Error.Error())
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "data": newPost})
+	ResponseWithSuccess(ctx, http.StatusCreated, newPost)
 }
 
 func (pc *PostController) UpdatePost(ctx *gin.Context) {
@@ -57,13 +57,13 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 
 	var payload *models.UpdatePost
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+		ResponseWithError(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 	var updatedPost models.Post
 	result := pc.DB.First(&updatedPost, "id = ?", postId)
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
+		ResponseWithError(ctx, http.StatusNotFound, "No post with that title exists")
 		return
 	}
 	now := time.Now()
@@ -78,7 +78,7 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 
 	pc.DB.Model(&updatedPost).Updates(postToUpdate)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": updatedPost})
+	ResponseWithSuccess(ctx, http.StatusOK, updatedPost)
 }
 
 func (pc *PostController) FindPostById(ctx *gin.Context) {
@@ -87,11 +87,11 @@ func (pc *PostController) FindPostById(ctx *gin.Context) {
 	var post models.Post
 	result := pc.DB.First(&post, "id = ?", postId)
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
+		ResponseWithError(ctx, http.StatusNotFound, "No post with that title exists")
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": post})
+	ResponseWithSuccess(ctx, http.StatusOK, post)
 }
 
 func (pc *PostController) FindPosts(ctx *gin.Context) {
@@ -105,11 +105,14 @@ func (pc *PostController) FindPosts(ctx *gin.Context) {
 	var posts []models.Post
 	results := pc.DB.Limit(intLimit).Offset(offset).Find(&posts)
 	if results.Error != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": results.Error})
+		ResponseWithError(ctx, http.StatusBadGateway, results.Error.Error())
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "results": len(posts), "data": posts})
+	ResponseWithSuccess(ctx, http.StatusOK, gin.H{
+		"results": len(posts),
+		"data":    posts,
+	})
 }
 
 func (pc *PostController) DeletePost(ctx *gin.Context) {
@@ -118,9 +121,9 @@ func (pc *PostController) DeletePost(ctx *gin.Context) {
 	result := pc.DB.Delete(&models.Post{}, "id = ?", postId)
 
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
+		ResponseWithError(ctx, http.StatusBadGateway, "No post with that title exists")
 		return
 	}
 
-	ctx.JSON(http.StatusNoContent, nil)
+	ResponseWithSuccess(ctx, http.StatusNoContent, nil)
 }

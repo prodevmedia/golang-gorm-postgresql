@@ -30,5 +30,5 @@ func (uc *UserController) GetMe(ctx *gin.Context) {
 		UpdatedAt: currentUser.UpdatedAt,
 	}
 
-	ResponseWithSuccess(ctx, http.StatusOK, userResponse)
+	ResponseWithSuccess(ctx, http.StatusOK, gin.H{"user": userResponse})
 }

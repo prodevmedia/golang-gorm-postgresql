@@ -7,23 +7,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostRouteController struct {
-	postController controllers.PostController
-}
-
-func NewRoutePostController(dbConnection *gorm.DB) PostRouteController {
+func PostRoute(rg *gin.RouterGroup, dbConnection *gorm.DB) {
 	postController := controllers.NewPostController(dbConnection)
-
-	return PostRouteController{postController}
-}
-
-func (pc *PostRouteController) PostRoute(rg *gin.RouterGroup) {
 
 	router := rg.Group("posts")
 	router.Use(middleware.DeserializeUser())
-	router.POST("/", pc.postController.CreatePost)
-	router.GET("/", pc.postController.FindPosts)
-	router.PUT("/:postId", pc.postController.UpdatePost)
-	router.GET("/:postId", pc.postController.FindPostById)
-	router.DELETE("/:postId", pc.postController.DeletePost)
+	router.POST("/", postController.CreatePost)
+	router.GET("/", postController.FindPosts)
+	router.PUT("/:postId", postController.UpdatePost)
+	router.GET("/:postId", postController.FindPostById)
+	router.DELETE("/:postId", postController.DeletePost)
+
 }

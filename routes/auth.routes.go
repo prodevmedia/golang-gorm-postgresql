@@ -7,23 +7,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type AuthRouteController struct {
-	authController controllers.AuthController
-}
-
-func NewAuthRouteController(dbConnection *gorm.DB) AuthRouteController {
+func AuthRoute(rg *gin.RouterGroup, dbConnection *gorm.DB) {
 	authController := controllers.NewAuthController(dbConnection)
 
-	return AuthRouteController{authController}
-}
-
-func (rc *AuthRouteController) AuthRoute(rg *gin.RouterGroup) {
 	router := rg.Group("/auth")
 
-	router.POST("/register", rc.authController.SignUpUser)
-	router.POST("/login", rc.authController.SignInUser)
-	router.GET("/logout", middleware.DeserializeUser(), rc.authController.LogoutUser)
-	router.GET("/verifyemail/:verificationCode", rc.authController.VerifyEmail)
-	router.POST("/forgotpassword", rc.authController.ForgotPassword)
-	router.PATCH("/resetpassword/:resetToken", rc.authController.ResetPassword)
+	router.POST("/register", authController.SignUpUser)
+	router.POST("/login", authController.SignInUser)
+	router.GET("/logout", middleware.DeserializeUser(), authController.LogoutUser)
+	router.GET("/verifyemail/:verificationCode", authController.VerifyEmail)
+	router.POST("/forgotpassword", authController.ForgotPassword)
+	router.PATCH("/resetpassword/:resetToken", authController.ResetPassword)
 }

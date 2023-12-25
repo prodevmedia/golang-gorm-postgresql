@@ -7,18 +7,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserRouteController struct {
-	userController controllers.UserController
-}
-
-func NewRouteUserController(dbConnection *gorm.DB) UserRouteController {
+func UserRoute(rg *gin.RouterGroup, dbConnection *gorm.DB) {
 	userController := controllers.NewUserController(dbConnection)
 
-	return UserRouteController{userController}
-}
-
-func (uc *UserRouteController) UserRoute(rg *gin.RouterGroup) {
-
 	router := rg.Group("users")
-	router.GET("/me", middleware.DeserializeUser(), uc.userController.GetMe)
+	router.GET("/me", middleware.DeserializeUser(), userController.GetMe)
 }

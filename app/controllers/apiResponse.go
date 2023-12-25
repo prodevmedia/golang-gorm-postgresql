@@ -7,5 +7,5 @@ func ResponseWithError(ctx *gin.Context, code int, message string) {
 }
 
 func ResponseWithSuccess(ctx *gin.Context, code int, data interface{}) {
-	ctx.JSON(code, gin.H{"status": false, "data": data})
+	ctx.JSON(code, gin.H{"status": true, "data": data})
 }

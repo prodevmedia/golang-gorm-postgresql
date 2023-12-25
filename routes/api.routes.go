@@ -25,12 +25,6 @@ func InitRoutes() {
 }
 
 func NewRoute(dbConnection *gorm.DB, config config.Config) {
-	var (
-		AuthRouteController = NewAuthRouteController(database.DB)
-		UserRouteController = NewRouteUserController(database.DB)
-		PostRouteController = NewRoutePostController(database.DB)
-	)
-
 	server := gin.Default()
 
 	corsConfig := cors.DefaultConfig()
@@ -45,9 +39,9 @@ func NewRoute(dbConnection *gorm.DB, config config.Config) {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})
 
-	AuthRouteController.AuthRoute(router)
-	UserRouteController.UserRoute(router)
-	PostRouteController.PostRoute(router)
+	AuthRoute(router, database.DB)
+	UserRoute(router, database.DB)
+	PostRoute(router, database.DB)
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }

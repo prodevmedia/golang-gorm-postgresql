@@ -11,7 +11,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitRoutes() {
+func ApiRoute(router *gin.RouterGroup, dbConnection *gorm.DB, config config.Config) {
+	router.GET("/healthchecker", func(ctx *gin.Context) {
+		message := "Welcome to Golang with Gorm and Postgres"
+		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
+	})
+
+	AuthRoute(router, database.DB)
+	UserRoute(router, database.DB)
+	PostRoute(router, database.DB)
+}
+
+func Init() {
 	config, err := config.LoadConfig(".")
 	if err != nil {
 		log.Fatal("? Could not load environment variables", err)
@@ -19,12 +30,6 @@ func InitRoutes() {
 
 	database.ConnectDB(&config)
 
-	dbConnection := database.DB
-
-	NewRoute(dbConnection, config)
-}
-
-func NewRoute(dbConnection *gorm.DB, config config.Config) {
 	server := gin.Default()
 
 	corsConfig := cors.DefaultConfig()
@@ -34,14 +39,7 @@ func NewRoute(dbConnection *gorm.DB, config config.Config) {
 	server.Use(cors.New(corsConfig))
 
 	router := server.Group("/api")
-	router.GET("/healthchecker", func(ctx *gin.Context) {
-		message := "Welcome to Golang with Gorm and Postgres"
-		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
-	})
-
-	AuthRoute(router, database.DB)
-	UserRoute(router, database.DB)
-	PostRoute(router, database.DB)
+	ApiRoute(router, database.DB, config)
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }

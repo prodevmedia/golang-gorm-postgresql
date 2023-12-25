@@ -13,7 +13,7 @@ type User struct {
 	Password           string    `gorm:"not null"`
 	Role               string    `gorm:"type:varchar(255);not null"`
 	Provider           string    `gorm:"not null"`
-	Photo              string    `gorm:"not null"`
+	Photo              string
 	VerificationCode   string
 	PasswordResetToken string
 	PasswordResetAt    time.Time
@@ -27,7 +27,6 @@ type SignUpInput struct {
 	Email           string `json:"email" binding:"required"`
 	Password        string `json:"password" binding:"required,min=8"`
 	PasswordConfirm string `json:"passwordConfirm" binding:"required"`
-	Photo           string `json:"photo" binding:"required"`
 }
 
 type SignInInput struct {

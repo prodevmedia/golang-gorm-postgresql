@@ -28,8 +28,8 @@
 
 ## Prerequisites
 
-- Golang
-- Docker
+- [Golang](#install-go)
+- [Docker](#install-docker)
 
 #
 
@@ -153,7 +153,7 @@ or check
 
 https://github.com/cosmtrek/air
 
-## TUTORIAL GO
+## Install Go
 
 ### How to Install: https://go.dev/doc/install
 
@@ -171,3 +171,7 @@ export PATH=$PATH:$GOROOT/bin
 
 Golang GORM RESTful API with Gin Gonic and PostgreSQL
 https://codevoweb.com/setup-golang-gorm-restful-api-project-with-postgres/
+
+# Install Docker
+
+https://docs.docker.com/desktop/

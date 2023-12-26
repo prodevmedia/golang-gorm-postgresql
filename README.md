@@ -1,5 +1,20 @@
 # Prodev Media Golang REST API
 
+## Feature
+
+- Auto Reload Editing
+- Migrate use cmd
+- Seed use cmd
+
+## Technology
+
+- Golang
+- Docker
+- Postgres
+- Air (Fast Reload Development Golang)
+
+## Structure Folder
+
 - app -> all script used
 - app\controllers -> For Controller Logic
 - app\middleware -> for middleware routing
@@ -10,13 +25,6 @@
 - database -> for database script
 - routes -> for route api
 - templates -> html format for email style or print
-
-## Technology
-
-- Golang
-- Docker
-- Postgres
-- Air (Fast Reload Development Golang)
 
 ## Prerequisites
 
@@ -48,6 +56,10 @@ Now access the bash shell of the running Postgres container with this command
 ## Migrating
 
 > go run cmd/migrate.go
+
+## Seed
+
+> go run cmd/seed.go
 
 ## Install Air Package
 

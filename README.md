@@ -78,6 +78,10 @@ compose docker up -d
 air
 ```
 
+### Postman Collection
+
+https://documenter.getpostman.com/view/29378887/2s9Ykt5yuV
+
 ## Install the UUID OSSP Module for PostgreSQL
 
 By default, PostgreSQL natively supports the UUID (Universally Unique Identifier) data type but since we are using the uuid_generate_v4() function as a default value on the ID column, we need to manually install the UUID OSSP plugin for it to work.

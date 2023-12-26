@@ -47,6 +47,8 @@ To install the plugin, we need to run the CREATE EXTENSION command in the Postgr
 
 Now access the bash shell of the running Postgres container with this command
 
+> docker compose up -d
+
 > docker exec -it postgres bash
 
 > psql -U postges golang-gorm
@@ -63,13 +65,46 @@ Now access the bash shell of the running Postgres container with this command
 
 ## Install Air Package
 
+### Via go install (Recommended)
+
 > go install github.com/cosmtrek/air@latest
+
+### Via install.sh
+
+# binary will be $(go env GOPATH)/bin/air
+
+curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
+# or install it into ./bin/
+
+```
+curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s
+
+```
+
+air -v
+
+### Via goblin.run
+
+```
+# binary will be /usr/local/bin/air
+curl -sSfL https://goblin.run/github.com/cosmtrek/air | sh
+
+# to put to a custom path
+curl -sSfL https://goblin.run/github.com/cosmtrek/air | PREFIX=/tmp sh
+```
 
 Or check other
 
 https://github.com/cosmtrek/air
 
 ## How To Run
+
+### 1. Run Postgres from Docker
+
+> compose docker up -d
+
+### 2. Run Golang Server
 
 > go get
 

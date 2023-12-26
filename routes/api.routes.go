@@ -33,7 +33,7 @@ func Init() {
 	server := gin.Default()
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8000", config.ClientOrigin}
+	corsConfig.AllowOrigins = []string{"http://localhost:" + config.ServerPort, config.ClientOrigin}
 	corsConfig.AllowCredentials = true
 
 	server.Use(cors.New(corsConfig))

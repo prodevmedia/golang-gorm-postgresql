@@ -167,11 +167,11 @@ export PATH=$PATH:$GOPATH
 export PATH=$PATH:$GOROOT/bin
 ```
 
+# Install Docker
+
+https://docs.docker.com/desktop/
+
 ## SOURCE TUTORIAL
 
 Golang GORM RESTful API with Gin Gonic and PostgreSQL
 https://codevoweb.com/setup-golang-gorm-restful-api-project-with-postgres/
-
-# Install Docker
-
-https://docs.docker.com/desktop/

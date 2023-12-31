@@ -17,5 +17,6 @@ func Seed() {
 	database.ConnectDB(&config)
 
 	seeders.UserSeeder(database.DB)
+	seeders.PostSeeder(database.DB)
 	log.Println("? Seeding completed")
 }

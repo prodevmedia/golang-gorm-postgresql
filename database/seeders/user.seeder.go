@@ -5,6 +5,7 @@ import (
 
 	"github.com/supardi98/golang-gorm-postgres/app/models"
 	"github.com/supardi98/golang-gorm-postgres/app/utils"
+	"github.com/supardi98/golang-gorm-postgres/database/fakers"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +26,11 @@ func UserSeeder(db *gorm.DB) {
 			Verified: true,
 			Provider: "local",
 		},
+	}
+
+	// use user faker
+	for i := 0; i < 1000; i++ {
+		users = append(users, fakers.UserFaker(db))
 	}
 
 	// insert multiple record

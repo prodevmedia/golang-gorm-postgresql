@@ -22,7 +22,8 @@
 - app\utils -> for utilities project
 - cmd -> for go run command
 - config -> for configuration project
-- database -> for database script
+- database\fakers -> for models faker
+- database\seeders -> for seeder models
 - routes -> for route api
 - templates -> html format for email style or print
 

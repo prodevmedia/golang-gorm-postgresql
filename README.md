@@ -58,8 +58,8 @@ go get
 ### 5. Migrate and Seed
 
 ```bash
-go run cmd/migrate.go
-go run cmd/seed.go
+go run main.go migrate
+go run main.go seed
 ```
 
 ### 6. [Running Golang Server](#how-to-run)

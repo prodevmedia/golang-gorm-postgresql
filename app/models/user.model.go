@@ -17,9 +17,9 @@ type User struct {
 	VerificationCode   string
 	PasswordResetToken string
 	PasswordResetAt    time.Time
-	Verified           bool      `gorm:"not null"`
-	CreatedAt          time.Time `gorm:"not null"`
-	UpdatedAt          time.Time `gorm:"not null"`
+	Verified           bool `gorm:"not null"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
 }
 
 type SignUpInput struct {

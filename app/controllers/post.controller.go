@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/supardi98/golang-gorm-postgres/app/models"
@@ -28,14 +27,11 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 		return
 	}
 
-	now := time.Now()
 	newPost := models.Post{
-		Title:     payload.Title,
-		Content:   payload.Content,
-		Image:     payload.Image,
-		User:      currentUser.ID,
-		CreatedAt: now,
-		UpdatedAt: now,
+		Title:   payload.Title,
+		Content: payload.Content,
+		Image:   payload.Image,
+		User:    currentUser.ID,
 	}
 
 	result := pc.DB.Create(&newPost)
@@ -66,14 +62,11 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 		ResponseWithError(ctx, http.StatusNotFound, "No post with that title exists")
 		return
 	}
-	now := time.Now()
 	postToUpdate := models.Post{
-		Title:     payload.Title,
-		Content:   payload.Content,
-		Image:     payload.Image,
-		User:      currentUser.ID,
-		CreatedAt: updatedPost.CreatedAt,
-		UpdatedAt: now,
+		Title:   payload.Title,
+		Content: payload.Content,
+		Image:   payload.Image,
+		User:    currentUser.ID,
 	}
 
 	pc.DB.Model(&updatedPost).Updates(postToUpdate)

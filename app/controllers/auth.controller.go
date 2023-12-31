@@ -42,16 +42,13 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 		return
 	}
 
-	now := time.Now()
 	newUser := models.User{
-		Name:      payload.Name,
-		Email:     strings.ToLower(payload.Email),
-		Password:  hashedPassword,
-		Role:      "user",
-		Verified:  false,
-		Provider:  "local",
-		CreatedAt: now,
-		UpdatedAt: now,
+		Name:     payload.Name,
+		Email:    strings.ToLower(payload.Email),
+		Password: hashedPassword,
+		Role:     "user",
+		Verified: false,
+		Provider: "local",
 	}
 
 	result := ac.DB.Create(&newUser)

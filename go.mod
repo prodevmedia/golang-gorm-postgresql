@@ -1,4 +1,4 @@
-module github.com/supardi98/golang-gorm-postgres
+module github.com/prodevmedia/golang-gorm-postgres
 
 go 1.21.5
 

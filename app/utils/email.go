@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 
 	"github.com/k3a/html2text"
-	"github.com/supardi98/golang-gorm-postgres/app/models"
-	"github.com/supardi98/golang-gorm-postgres/config"
+	"github.com/prodevmedia/golang-gorm-postgres/app/models"
+	"github.com/prodevmedia/golang-gorm-postgres/config"
 	"gopkg.in/gomail.v2"
 )
 

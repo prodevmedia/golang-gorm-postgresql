@@ -3,8 +3,8 @@ package seeders
 import (
 	"log"
 
-	"github.com/supardi98/golang-gorm-postgres/app/models"
-	"github.com/supardi98/golang-gorm-postgres/database/fakers"
+	"github.com/prodevmedia/golang-gorm-postgres/app/models"
+	"github.com/prodevmedia/golang-gorm-postgres/database/fakers"
 	"gorm.io/gorm"
 )
 

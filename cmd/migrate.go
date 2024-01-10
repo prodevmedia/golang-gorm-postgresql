@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/supardi98/golang-gorm-postgres/app/models"
-	"github.com/supardi98/golang-gorm-postgres/config"
-	"github.com/supardi98/golang-gorm-postgres/database"
+	"github.com/prodevmedia/golang-gorm-postgres/app/models"
+	"github.com/prodevmedia/golang-gorm-postgres/config"
+	"github.com/prodevmedia/golang-gorm-postgres/database"
 )
 
 func Migrate() {

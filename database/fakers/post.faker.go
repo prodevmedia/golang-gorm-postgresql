@@ -2,7 +2,7 @@ package fakers
 
 import (
 	"github.com/bxcodec/faker/v4"
-	"github.com/supardi98/golang-gorm-postgres/app/models"
+	"github.com/prodevmedia/golang-gorm-postgres/app/models"
 	"gorm.io/gorm"
 )
 

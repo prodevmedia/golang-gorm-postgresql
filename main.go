@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/supardi98/golang-gorm-postgres/cmd"
-	"github.com/supardi98/golang-gorm-postgres/routes"
+	"github.com/prodevmedia/golang-gorm-postgres/cmd"
+	"github.com/prodevmedia/golang-gorm-postgres/routes"
 )
 
 func main() {

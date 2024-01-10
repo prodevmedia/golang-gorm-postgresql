@@ -9,9 +9,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/markbates/goth/gothic"
-	"github.com/supardi98/golang-gorm-postgres/app/models"
-	"github.com/supardi98/golang-gorm-postgres/app/utils"
-	"github.com/supardi98/golang-gorm-postgres/config"
+	"github.com/prodevmedia/golang-gorm-postgres/app/models"
+	"github.com/prodevmedia/golang-gorm-postgres/app/utils"
+	"github.com/prodevmedia/golang-gorm-postgres/config"
 	"github.com/thanhpk/randstr"
 	"gorm.io/gorm"
 )

@@ -9,8 +9,8 @@ import (
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/github"
 	"github.com/markbates/goth/providers/google"
-	"github.com/supardi98/golang-gorm-postgres/config"
-	"github.com/supardi98/golang-gorm-postgres/database"
+	"github.com/prodevmedia/golang-gorm-postgres/config"
+	"github.com/prodevmedia/golang-gorm-postgres/database"
 	"gorm.io/gorm"
 )
 

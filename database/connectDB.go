@@ -7,7 +7,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/supardi98/golang-gorm-postgres/config"
+	"github.com/prodevmedia/golang-gorm-postgres/config"
 )
 
 var DB *gorm.DB

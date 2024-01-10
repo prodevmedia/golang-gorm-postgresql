@@ -3,9 +3,9 @@ package cmd
 import (
 	"log"
 
-	"github.com/supardi98/golang-gorm-postgres/config"
-	"github.com/supardi98/golang-gorm-postgres/database"
-	"github.com/supardi98/golang-gorm-postgres/database/seeders"
+	"github.com/prodevmedia/golang-gorm-postgres/config"
+	"github.com/prodevmedia/golang-gorm-postgres/database"
+	"github.com/prodevmedia/golang-gorm-postgres/database/seeders"
 )
 
 func Seed() {

@@ -2,6 +2,8 @@
 
 ## Feature
 
+- OAUTH 2.0 Support
+- Example CRUD
 - Auto Reload Editing
 - Migrate use cmd
 - Seed use cmd

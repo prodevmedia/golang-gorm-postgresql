@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/markbates/goth"
+	"github.com/markbates/goth/providers/github"
 	"github.com/markbates/goth/providers/google"
 	"github.com/supardi98/golang-gorm-postgres/config"
 	"github.com/supardi98/golang-gorm-postgres/database"
@@ -33,6 +34,7 @@ func Init() {
 	// OAUTH PROVIDERS
 	goth.UseProviders(
 		google.New(config.OAuthGoogleClientId, config.OAuthGoogleSecret, config.ServerURL+"/auth/provider/google/callback", "email", "profile"),
+		github.New(config.OAuthGithubClientId, config.OAuthGithubSecret, config.ServerURL+"/auth/provider/github/callback", "user", "gist", "user:email"),
 	)
 
 	database.ConnectDB(&config)

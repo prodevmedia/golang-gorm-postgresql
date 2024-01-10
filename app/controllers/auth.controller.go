@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/markbates/goth/gothic"
 	"github.com/supardi98/golang-gorm-postgres/app/models"
 	"github.com/supardi98/golang-gorm-postgres/app/utils"
 	"github.com/supardi98/golang-gorm-postgres/config"
@@ -251,4 +253,103 @@ func (ac *AuthController) ResetPassword(ctx *gin.Context) {
 	ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
 
 	ResponseWithSuccess(ctx, http.StatusOK, "Password data updated successfully")
+}
+
+func (ac *AuthController) OAuth(ctx *gin.Context) {
+	provider := ctx.Params.ByName("provider")
+	q := ctx.Request.URL.Query()
+	q.Add("provider", provider)
+	ctx.Request.URL.RawQuery = q.Encode()
+
+	// try to get the user without re-authenticating
+	if gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request); err == nil {
+		ctx.JSON(http.StatusOK, gin.H{"user": gothUser})
+		return
+	}
+
+	// else start the authentication process for the user
+	gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
+
+	return
+}
+
+func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
+	config, _ := config.LoadConfig(".")
+
+	provider := ctx.Params.ByName("provider")
+	q := ctx.Request.URL.Query()
+	q.Add("provider", provider)
+	ctx.Request.URL.RawQuery = q.Encode()
+
+	user, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request)
+	fmt.Println(user)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var userDB models.User
+	result := ac.DB.First(&userDB, "email = ?", user.Email)
+	if result.Error != nil {
+		// ? Create User
+		newUser := models.User{
+			Name:     user.Name,
+			Email:    user.Email,
+			Password: "",
+			Role:     "user",
+			Verified: true,
+			Provider: provider,
+		}
+
+		ac.DB.Create(&newUser)
+
+		var firstName = newUser.Name
+
+		if strings.Contains(firstName, " ") {
+			firstName = strings.Split(firstName, " ")[1]
+		}
+
+		// ? Send Email
+		emailData := utils.EmailData{
+			URL:       config.ClientOrigin,
+			FirstName: firstName,
+			Subject:   "Your account success register",
+		}
+
+		utils.SendEmail(&newUser, &emailData, "newUser.html")
+
+		// Generate Token
+		token, err := utils.GenerateToken(config.TokenExpiresIn, newUser.ID, config.TokenSecret)
+		if err != nil {
+			ResponseWithError(ctx, http.StatusBadGateway, err.Error())
+			return
+		}
+
+		ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"user":  newUser,
+			"token": token,
+		})
+		return
+	}
+
+	// ? Update User
+	userDB.Name = user.Name
+	userDB.Provider = provider
+	ac.DB.Save(&userDB)
+
+	// Generate Token
+	token, err := utils.GenerateToken(config.TokenExpiresIn, userDB.ID, config.TokenSecret)
+	if err != nil {
+		ResponseWithError(ctx, http.StatusBadGateway, err.Error())
+		return
+	}
+
+	ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"user":  userDB,
+		"token": token,
+	})
 }

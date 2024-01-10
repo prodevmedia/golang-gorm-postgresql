@@ -6,6 +6,8 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/markbates/goth"
+	"github.com/markbates/goth/providers/google"
 	"github.com/supardi98/golang-gorm-postgres/config"
 	"github.com/supardi98/golang-gorm-postgres/database"
 	"gorm.io/gorm"
@@ -28,9 +30,16 @@ func Init() {
 		log.Fatal("? Could not load environment variables", err)
 	}
 
+	// OAUTH PROVIDERS
+	goth.UseProviders(
+		google.New(config.OAuthGoogleClientId, config.OAuthGoogleSecret, config.ServerURL+"/auth/provider/google/callback", "email", "profile"),
+	)
+
 	database.ConnectDB(&config)
 
-	server := gin.Default()
+	// server := gin.Default()
+	server := gin.New()
+	server.Use(gin.Recovery())
 
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"http://localhost:" + config.ServerPort, config.ClientOrigin}
@@ -38,7 +47,8 @@ func Init() {
 
 	server.Use(cors.New(corsConfig))
 
-	router := server.Group("/api")
+	// router := server.Group("/api")
+	router := server.Group("/")
 	ApiRoute(router, database.DB, config)
 
 	log.Fatal(server.Run(":" + config.ServerPort))

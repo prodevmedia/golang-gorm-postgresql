@@ -10,6 +10,7 @@ import (
 func AuthRoute(rg *gin.RouterGroup, dbConnection *gorm.DB) {
 	authController := controllers.NewAuthController(dbConnection)
 
+	// AUTH
 	router := rg.Group("/auth")
 
 	router.POST("/register", authController.SignUpUser)
@@ -18,4 +19,8 @@ func AuthRoute(rg *gin.RouterGroup, dbConnection *gorm.DB) {
 	router.GET("/verifyemail/:verificationCode", authController.VerifyEmail)
 	router.POST("/forgotpassword", authController.ForgotPassword)
 	router.PATCH("/resetpassword/:resetToken", authController.ResetPassword)
+
+	// OAUTH PROVIDER
+	router.GET("/provider/:provider", authController.OAuth)
+	router.GET("/provider/:provider/callback", authController.OAuthCallback)
 }

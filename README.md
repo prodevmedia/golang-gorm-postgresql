@@ -104,7 +104,7 @@ docker exec -it postgres bash
 ```
 
 ```bash
-psql -U postges golang-gorm
+psql -U postgres golang-gorm
 ```
 
 ```bash

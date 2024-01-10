@@ -111,6 +111,12 @@ psql -U postgres golang-gorm
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
 
+List all the available extensions
+
+```bash
+select * from pg_available_extensions;
+```
+
 ## Migrating
 
 ```bash

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -282,7 +281,6 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 	ctx.Request.URL.RawQuery = q.Encode()
 
 	user, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request)
-	fmt.Println(user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -337,6 +335,8 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 	// ? Update User
 	userDB.Name = user.Name
 	userDB.Provider = provider
+	userDB.Photo = user.AvatarURL
+
 	ac.DB.Save(&userDB)
 
 	// Generate Token

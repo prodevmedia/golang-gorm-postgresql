@@ -12,15 +12,15 @@ func PostSeeder(db *gorm.DB) {
 	// Create
 	// create array
 	posts := []models.Post{}
-	// use user faker
+	// use post faker
 	for i := 0; i < 100; i++ {
 		posts = append(posts, fakers.PostFaker(db))
 	}
 
 	// insert multiple record
 	// mapping
-	for _, user := range posts {
-		db.Create(&user)
+	for _, post := range posts {
+		db.Create(&post)
 	}
 
 	log.Println("? Seeding users completed")

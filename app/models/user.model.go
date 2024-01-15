@@ -20,6 +20,7 @@ type User struct {
 	Verified           bool `gorm:"not null"`
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
+	Posts              []Post `gorm:"foreignKey:UserID"`
 }
 
 type SignUpInput struct {

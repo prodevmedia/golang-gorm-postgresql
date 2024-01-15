@@ -31,7 +31,7 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 		Title:   payload.Title,
 		Content: payload.Content,
 		Image:   payload.Image,
-		User:    currentUser.ID,
+		UserID:  currentUser.ID,
 	}
 
 	result := pc.DB.Create(&newPost)
@@ -66,7 +66,7 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 		Title:   payload.Title,
 		Content: payload.Content,
 		Image:   payload.Image,
-		User:    currentUser.ID,
+		UserID:  currentUser.ID,
 	}
 
 	pc.DB.Model(&updatedPost).Updates(postToUpdate)

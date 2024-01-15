@@ -11,7 +11,8 @@ type Post struct {
 	Title     string    `gorm:"uniqueIndex;not null"`
 	Content   string    `gorm:"not null"`
 	Image     string    `gorm:"not null"`
-	User      uuid.UUID `gorm:"not null"`
+	UserID    uuid.UUID `gorm:"not null;type:uuid"`
+	User      User      `gorm:"foreignKey:UserID"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

@@ -16,6 +16,6 @@ func PostFaker(db *gorm.DB) models.Post {
 		Title:   faker.Name(),
 		Content: faker.Paragraph(),
 		Image:   "image.png",
-		User:    user.ID,
+		UserID:  user.ID,
 	}
 }

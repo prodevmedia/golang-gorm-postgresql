@@ -13,7 +13,7 @@ type User struct {
 	Password           string    `gorm:"not null"`
 	Role               string    `gorm:"type:varchar(255);not null"`
 	Provider           string    `gorm:"not null"`
-	Photo              string
+	Avatar             string
 	VerificationCode   string
 	PasswordResetToken string
 	PasswordResetAt    time.Time
@@ -40,7 +40,7 @@ type UserResponse struct {
 	Name      string    `json:"name,omitempty"`
 	Email     string    `json:"email,omitempty"`
 	Role      string    `json:"role,omitempty"`
-	Photo     string    `json:"photo,omitempty"`
+	Avatar    string    `json:"avatar,omitempty"`
 	Provider  string    `json:"provider"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -51,8 +51,27 @@ type ForgotPasswordInput struct {
 	Email string `json:"email" binding:"required"`
 }
 
-// ? ResetPasswordInput struct
-type ResetPasswordInput struct {
+// ? UpdatePasswordInput struct
+type UpdatePasswordInput struct {
 	Password        string `json:"password" binding:"required"`
-	PasswordConfirm string `json:"passwordConfirm" binding:"required"`
+	PasswordConfirm string `json:"password_confirm" binding:"required"`
+}
+
+type UpdateProfileInput struct {
+	Name  string `json:"name,omitempty"`
+	Email string `json:"email,omitempty"`
+}
+
+// User to UserResponse
+func (u *User) Response() UserResponse {
+	return UserResponse{
+		ID:        u.ID,
+		Name:      u.Name,
+		Email:     u.Email,
+		Role:      u.Role,
+		Avatar:    u.Avatar,
+		Provider:  u.Provider,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
+	}
 }

@@ -1,3 +1,7 @@
+# public
+/public/uploads/avatar/*
+
+
 # Binaries for programs and plugins
 *.exe
 *.exe~

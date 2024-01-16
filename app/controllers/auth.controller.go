@@ -157,7 +157,7 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 
 	ResponseWithSuccess(ctx, http.StatusOK, gin.H{
 		"token": token,
-		"user":  user,
+		"user":  user.Response(),
 	})
 }
 
@@ -221,7 +221,7 @@ func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
 }
 
 func (ac *AuthController) ResetPassword(ctx *gin.Context) {
-	var payload *models.ResetPasswordInput
+	var payload *models.UpdatePasswordInput
 	resetToken := ctx.Params.ByName("resetToken")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -295,6 +295,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 			Email:    user.Email,
 			Password: "",
 			Role:     "user",
+			Avatar:   user.AvatarURL,
 			Verified: true,
 			Provider: provider,
 		}
@@ -326,7 +327,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 		ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 		ctx.JSON(http.StatusOK, gin.H{
-			"user":  newUser,
+			"user":  newUser.Response(),
 			"token": token,
 		})
 		return
@@ -335,7 +336,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 	// ? Update User
 	userDB.Name = user.Name
 	userDB.Provider = provider
-	userDB.Photo = user.AvatarURL
+	userDB.Avatar = user.AvatarURL
 
 	ac.DB.Save(&userDB)
 
@@ -349,7 +350,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 	ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"user":  userDB,
+		"user":  userDB.Response(),
 		"token": token,
 	})
 }

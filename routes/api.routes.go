@@ -20,9 +20,13 @@ func ApiRoute(router *gin.RouterGroup, dbConnection *gorm.DB, config config.Conf
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})
 
+	// Public routes
+	router.Static("/public", "./public")
+
 	WSRoute(router, database.DB)
 
 	AuthRoute(router, database.DB)
+	ProfileRoute(router, database.DB)
 	UserRoute(router, database.DB)
 	PostRoute(router, database.DB)
 }

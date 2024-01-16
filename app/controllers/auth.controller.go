@@ -90,7 +90,7 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 
 	message := "We sent an email with a verification code to " + newUser.Email
 
-	ResponseWithSuccess(ctx, http.StatusCreated, message)
+	ResponseWithSuccessWithoutData(ctx, http.StatusCreated, message)
 }
 
 // [...] Verify Email
@@ -115,7 +115,7 @@ func (ac *AuthController) VerifyEmail(ctx *gin.Context) {
 	updatedUser.Verified = true
 	ac.DB.Save(&updatedUser)
 
-	ResponseWithSuccess(ctx, http.StatusOK, "Email verified successfully")
+	ResponseWithSuccessWithoutData(ctx, http.StatusOK, "Email verified successfully")
 }
 
 // [...] SignIn User
@@ -157,14 +157,14 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 
 	ResponseWithSuccess(ctx, http.StatusOK, gin.H{
 		"token": token,
-		"user":  user.Response(),
-	})
+		"user":  user,
+	}, "User logged in successfully")
 }
 
 // [...] SignOut User
 func (ac *AuthController) LogoutUser(ctx *gin.Context) {
 	// ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
-	ResponseWithSuccess(ctx, http.StatusOK, "User logged out successfully")
+	ResponseWithSuccessWithoutData(ctx, http.StatusOK, "User logged out successfully")
 }
 
 func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
@@ -217,7 +217,7 @@ func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
 
 	utils.SendEmail(&user, &emailData, "resetPassword.html")
 
-	ResponseWithSuccess(ctx, http.StatusOK, message)
+	ResponseWithSuccessWithoutData(ctx, http.StatusOK, message)
 }
 
 func (ac *AuthController) ResetPassword(ctx *gin.Context) {
@@ -225,12 +225,12 @@ func (ac *AuthController) ResetPassword(ctx *gin.Context) {
 	resetToken := ctx.Params.ByName("resetToken")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ResponseWithSuccess(ctx, http.StatusBadRequest, err.Error())
+		ResponseWithSuccess(ctx, http.StatusBadRequest, err.Error(), "Invalid data")
 		return
 	}
 
 	if payload.Password != payload.PasswordConfirm {
-		ResponseWithSuccess(ctx, http.StatusBadRequest, "Passwords do not match")
+		ResponseWithSuccessWithoutData(ctx, http.StatusBadRequest, "Passwords do not match")
 		return
 	}
 
@@ -251,7 +251,7 @@ func (ac *AuthController) ResetPassword(ctx *gin.Context) {
 
 	// ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
 
-	ResponseWithSuccess(ctx, http.StatusOK, "Password data updated successfully")
+	ResponseWithSuccessWithoutData(ctx, http.StatusOK, "Password data updated successfully")
 }
 
 func (ac *AuthController) OAuth(ctx *gin.Context) {
@@ -327,7 +327,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 		// ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 		ctx.JSON(http.StatusOK, gin.H{
-			"user":  newUser.Response(),
+			"user":  newUser,
 			"token": token,
 		})
 		return
@@ -350,7 +350,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 	// ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"user":  userDB.Response(),
+		"user":  userDB,
 		"token": token,
 	})
 }

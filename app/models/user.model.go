@@ -7,20 +7,20 @@ import (
 )
 
 type User struct {
-	ID                 uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
-	Name               string    `gorm:"type:varchar(255);not null"`
-	Email              string    `gorm:"uniqueIndex;not null"`
-	Password           string    `gorm:"not null"`
-	Role               string    `gorm:"type:varchar(255);not null"`
-	Provider           string    `gorm:"not null"`
-	Avatar             string
-	VerificationCode   string
-	PasswordResetToken string
-	PasswordResetAt    time.Time
-	Verified           bool `gorm:"not null"`
-	CreatedAt          time.Time
-	UpdatedAt          time.Time
-	Posts              []Post `gorm:"foreignKey:UserID"`
+	ID                 uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key" json:"id,omitempty"`
+	Name               string    `gorm:"type:varchar(255);not null" json:"name,omitempty"`
+	Email              string    `gorm:"uniqueIndex;not null" json:"email,omitempty"`
+	Password           string    `gorm:"not null" json:"-"`
+	Role               string    `gorm:"type:varchar(255);not null" json:"role,omitempty"`
+	Provider           string    `gorm:"not null" json:"provider,omitempty"`
+	Avatar             string    `json:"avatar,omitempty"`
+	VerificationCode   string    `json:"-"`
+	PasswordResetToken string    `json:"-"`
+	PasswordResetAt    time.Time `json:"passwordResetAt,omitempty"`
+	Verified           bool      `gorm:"not null" json:"verified,omitempty"`
+	CreatedAt          time.Time `json:"createdAt,omitempty"`
+	UpdatedAt          time.Time `json:"updatedAt,omitempty"`
+	Posts              []Post    `gorm:"foreignKey:UserID" json:"posts,omitempty"`
 }
 
 type SignUpInput struct {
@@ -42,8 +42,8 @@ type UserResponse struct {
 	Role      string    `json:"role,omitempty"`
 	Avatar    string    `json:"avatar,omitempty"`
 	Provider  string    `json:"provider"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // ? ForgotPasswordInput struct
@@ -54,24 +54,10 @@ type ForgotPasswordInput struct {
 // ? UpdatePasswordInput struct
 type UpdatePasswordInput struct {
 	Password        string `json:"password" binding:"required"`
-	PasswordConfirm string `json:"password_confirm" binding:"required"`
+	PasswordConfirm string `json:"passwordConfirm" binding:"required"`
 }
 
 type UpdateProfileInput struct {
 	Name  string `json:"name,omitempty"`
 	Email string `json:"email,omitempty"`
-}
-
-// User to UserResponse
-func (u *User) Response() UserResponse {
-	return UserResponse{
-		ID:        u.ID,
-		Name:      u.Name,
-		Email:     u.Email,
-		Role:      u.Role,
-		Avatar:    u.Avatar,
-		Provider:  u.Provider,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
-	}
 }

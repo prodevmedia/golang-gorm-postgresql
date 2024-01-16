@@ -44,7 +44,7 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 		return
 	}
 
-	ResponseWithSuccess(ctx, http.StatusCreated, newPost)
+	ResponseWithSuccess(ctx, http.StatusCreated, newPost, "Post created successfully")
 }
 
 func (pc *PostController) UpdatePost(ctx *gin.Context) {
@@ -71,7 +71,7 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 
 	pc.DB.Model(&updatedPost).Updates(postToUpdate)
 
-	ResponseWithSuccess(ctx, http.StatusOK, updatedPost)
+	ResponseWithSuccess(ctx, http.StatusOK, updatedPost, "Post updated successfully")
 }
 
 func (pc *PostController) FindPostById(ctx *gin.Context) {
@@ -84,7 +84,7 @@ func (pc *PostController) FindPostById(ctx *gin.Context) {
 		return
 	}
 
-	ResponseWithSuccess(ctx, http.StatusOK, post)
+	ResponseWithSuccess(ctx, http.StatusOK, post, "Post found successfully")
 }
 
 func (pc *PostController) FindPosts(ctx *gin.Context) {
@@ -105,7 +105,7 @@ func (pc *PostController) FindPosts(ctx *gin.Context) {
 	ResponseWithSuccess(ctx, http.StatusOK, gin.H{
 		"results": len(posts),
 		"data":    posts,
-	})
+	}, "Posts found successfully")
 }
 
 func (pc *PostController) DeletePost(ctx *gin.Context) {
@@ -118,5 +118,5 @@ func (pc *PostController) DeletePost(ctx *gin.Context) {
 		return
 	}
 
-	ResponseWithSuccess(ctx, http.StatusNoContent, nil)
+	ResponseWithSuccessWithoutData(ctx, http.StatusNoContent, "Post deleted successfully")
 }

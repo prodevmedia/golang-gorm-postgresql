@@ -20,7 +20,7 @@ func NewProfileController(DB *gorm.DB) ProfileController {
 func (pc *ProfileController) GetProfile(ctx *gin.Context) {
 	currentUser := ctx.MustGet("currentUser").(models.User)
 
-	ResponseWithSuccess(ctx, http.StatusOK, gin.H{"user": currentUser.Response()})
+	ResponseWithSuccess(ctx, http.StatusOK, gin.H{"user": currentUser}, "Profile retrieved successfully")
 }
 
 func (pc *ProfileController) UpdateProfile(ctx *gin.Context) {
@@ -39,7 +39,7 @@ func (pc *ProfileController) UpdateProfile(ctx *gin.Context) {
 
 	pc.DB.Model(&currentUser).Updates(userToUpdate)
 
-	ResponseWithSuccess(ctx, http.StatusOK, currentUser.Response())
+	ResponseWithSuccess(ctx, http.StatusOK, currentUser, "Profile updated successfully")
 }
 
 func (pc *ProfileController) UpdatePassword(ctx *gin.Context) {
@@ -68,7 +68,7 @@ func (pc *ProfileController) UpdatePassword(ctx *gin.Context) {
 
 	pc.DB.Model(&currentUser).Updates(userToUpdate)
 
-	ResponseWithSuccess(ctx, http.StatusOK, "Password updated successfully")
+	ResponseWithSuccess(ctx, http.StatusOK, "Password updated successfully", "Password updated successfully")
 }
 
 func (pc *ProfileController) UploadAvatar(ctx *gin.Context) {
@@ -92,5 +92,5 @@ func (pc *ProfileController) UploadAvatar(ctx *gin.Context) {
 
 	pc.DB.Model(&currentUser).Updates(userToUpdate)
 
-	ResponseWithSuccess(ctx, http.StatusOK, currentUser.Response())
+	ResponseWithSuccess(ctx, http.StatusOK, currentUser, "Avatar updated successfully")
 }

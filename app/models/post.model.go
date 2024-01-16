@@ -7,26 +7,24 @@ import (
 )
 
 type Post struct {
-	ID        uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
-	Title     string    `gorm:"uniqueIndex;not null"`
-	Content   string    `gorm:"not null"`
-	Image     string    `gorm:"not null"`
-	UserID    uuid.UUID
-	User      User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key" json:"id,omitempty"`
+	Title     string    `gorm:"uniqueIndex;not null" json:"title,omitempty"`
+	Content   string    `gorm:"not null" json:"content,omitempty"`
+	Image     string    `gorm:"not null" json:"image,omitempty"`
+	UserID    uuid.UUID `json:"userId,omitempty"`
+	User      User      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"user,omitempty" `
+	CreatedAt time.Time `json:"createdAt,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt,omitempty"`
 }
 
 type CreatePostRequest struct {
 	Title   string `json:"title"  binding:"required"`
 	Content string `json:"content" binding:"required"`
 	Image   string `json:"image" binding:"required"`
-	User    string `json:"user,omitempty"`
 }
 
 type UpdatePost struct {
 	Title   string `json:"title,omitempty"`
 	Content string `json:"content,omitempty"`
 	Image   string `json:"image,omitempty"`
-	User    string `json:"user,omitempty"`
 }

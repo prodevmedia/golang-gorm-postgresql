@@ -19,5 +19,5 @@ func NewUserController(DB *gorm.DB) UserController {
 func (uc *UserController) GetMe(ctx *gin.Context) {
 	currentUser := ctx.MustGet("currentUser").(models.User)
 
-	ResponseWithSuccess(ctx, http.StatusOK, gin.H{"user": currentUser.Response()})
+	ResponseWithSuccess(ctx, http.StatusOK, gin.H{"user": currentUser}, "Profile retrieved successfully")
 }

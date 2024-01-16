@@ -78,7 +78,7 @@ func (pc *PostController) FindPostById(ctx *gin.Context) {
 	postId := ctx.Param("postId")
 
 	var post models.Post
-	result := pc.DB.First(&post, "id = ?", postId)
+	result := pc.DB.Preload("User").First(&post, "id = ?", postId)
 	if result.Error != nil {
 		ResponseWithError(ctx, http.StatusNotFound, "No post with that title exists")
 		return
@@ -96,7 +96,7 @@ func (pc *PostController) FindPosts(ctx *gin.Context) {
 	offset := (intPage - 1) * intLimit
 
 	var posts []models.Post
-	results := pc.DB.Limit(intLimit).Offset(offset).Find(&posts)
+	results := pc.DB.Limit(intLimit).Offset(offset).Preload("User").Find(&posts)
 	if results.Error != nil {
 		ResponseWithError(ctx, http.StatusBadGateway, results.Error.Error())
 		return

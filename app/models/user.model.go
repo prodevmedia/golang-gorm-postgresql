@@ -35,17 +35,6 @@ type SignInInput struct {
 	Password string `json:"password"  binding:"required"`
 }
 
-type UserResponse struct {
-	ID        uuid.UUID `json:"id,omitempty"`
-	Name      string    `json:"name,omitempty"`
-	Email     string    `json:"email,omitempty"`
-	Role      string    `json:"role,omitempty"`
-	Avatar    string    `json:"avatar,omitempty"`
-	Provider  string    `json:"provider"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-}
-
 // ? ForgotPasswordInput struct
 type ForgotPasswordInput struct {
 	Email string `json:"email" binding:"required"`

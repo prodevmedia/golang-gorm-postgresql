@@ -153,7 +153,7 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
+	// ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 	ResponseWithSuccess(ctx, http.StatusOK, gin.H{
 		"token": token,
@@ -163,7 +163,7 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 
 // [...] SignOut User
 func (ac *AuthController) LogoutUser(ctx *gin.Context) {
-	ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
+	// ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
 	ResponseWithSuccess(ctx, http.StatusOK, "User logged out successfully")
 }
 
@@ -249,7 +249,7 @@ func (ac *AuthController) ResetPassword(ctx *gin.Context) {
 	updatedUser.PasswordResetToken = ""
 	ac.DB.Save(&updatedUser)
 
-	ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
+	// ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
 
 	ResponseWithSuccess(ctx, http.StatusOK, "Password data updated successfully")
 }
@@ -324,7 +324,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 			return
 		}
 
-		ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
+		// ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 		ctx.JSON(http.StatusOK, gin.H{
 			"user":  newUser.Response(),
@@ -347,7 +347,7 @@ func (ac *AuthController) OAuthCallback(ctx *gin.Context) {
 		return
 	}
 
-	ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
+	// ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"user":  userDB.Response(),
